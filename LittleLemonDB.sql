@@ -7,7 +7,8 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema LittleLemonDB
 -- -----------------------------------------------------
-
+CREATE SCHEMA IF  EXISTS `LittleLemonDB` DEFAULT CHARACTER SET utf8 ;
+USE `LittleLemonDB` ;
 -- -----------------------------------------------------
 -- Schema LittleLemonDB
 -- -----------------------------------------------------
@@ -32,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Customer` (
   `CustomerID` INT NOT NULL,
   `FullName` VARCHAR(255) NOT NULL,
   `ContactNumber` VARCHAR(45) NOT NULL,
-  `Email` VARCHAR(255) NOT NULL,
+  `Email` VARCHAR(255)  NULL,
   PRIMARY KEY (`CustomerID`))
 ENGINE = InnoDB;
 
@@ -42,8 +43,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Menu` (
   `MenuID` INT NOT NULL,
-  `Name` VARCHAR(45) NULL,
-  `Description` VARCHAR(255) NULL,
+  `Name` VARCHAR(45) NOT NULL,
+  `Description` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`MenuID`))
 ENGINE = InnoDB;
 
@@ -78,8 +79,8 @@ CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Orders` (
   CONSTRAINT `fk_Orders_Booking`
     FOREIGN KEY (`Booking_BookingID`)
     REFERENCES `LittleLemonDB`.`Booking` (`BookingID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE  ACTION
+    ON UPDATE  ACTION,
   CONSTRAINT `fk_Orders_Customer1`
     FOREIGN KEY (`Customer_CustomerID`)
     REFERENCES `LittleLemonDB`.`Customer` (`CustomerID`)
@@ -110,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Staff` (
   `Salary` DECIMAL NOT NULL,
   `Customer_CustomerID` INT NOT NULL,
   PRIMARY KEY (`StaffID`),
-  INDEX `fk_Staff_Customer1_idx` (`Customer_CustomerID` ASC) VISIBLE,
+  INDEX `fk_Staff_Customer1_idx` (`Customer_CustomerID` ASC) INVISIBLE,
   CONSTRAINT `fk_Staff_Customer1`
     FOREIGN KEY (`Customer_CustomerID`)
     REFERENCES `LittleLemonDB`.`Customer` (`CustomerID`)
